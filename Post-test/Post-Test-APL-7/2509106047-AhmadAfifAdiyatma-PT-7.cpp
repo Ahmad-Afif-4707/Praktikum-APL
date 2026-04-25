@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <conio.h>
-#include <windows.h>
 using namespace std;
 
 // warna
@@ -44,10 +43,11 @@ bool verifikasiLogin(DataUser user, string inputNama, string inputNim){
 }
 
 void bersihkanBuffer(){
-    FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
-    while(_kbhit()){
-        getch();
+    if(cin.rdbuf()->in_avail() > 0){
+        cin.clear();
+        cin.ignore(1000, '\n');
     }
+    cin.sync();
 }
 
 void cetakGaris(char karakter, int panjang){
@@ -142,6 +142,8 @@ int navigasiMenu(string opsi[], int jumlahOpsi, string judul){
             }
         }
         else if(inputTombol==13){
+            cin.clear();
+            cin.sync();
             return posisiKursor;
         }
     }
